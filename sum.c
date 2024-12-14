@@ -11,6 +11,10 @@ bool run_test(FILE *file, int test_case_num) {
 
     // Read inputs (a, b) and the expected result
     if (fscanf(file, "%d %d %d", &a, &b, &expected) != 3) {
+        if (feof(file)) {
+            // End of file reached, no more test cases
+            return false;
+        }
         printf("Test case %d: Error reading dataset file\n", test_case_num);
         return false;
     }
@@ -42,10 +46,13 @@ int main() {
 
     while (!feof(file)) {
         test_case_num++;
-        if (run_test(file, test_case_num)) {
-            passed++;
-        } else {
+        // Run each test and count passed/failed
+        if (!run_test(file, test_case_num)) {
+            // If run_test returns false due to EOF, exit loop
+            if (feof(file)) break;
             failed++;
+        } else {
+            passed++;
         }
     }
 
