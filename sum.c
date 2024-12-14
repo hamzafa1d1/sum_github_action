@@ -26,7 +26,7 @@ int main() {
     fclose(file);
 
     // Compute sum
-    result = a + b;
+    result = a + b + 1;
 
     // Validate result
     if (result == expected) {
