@@ -1,0 +1,33 @@
+name: Test Sum Function
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Install GCC
+      - name: Install GCC
+        run: sudo apt-get install -y gcc
+
+      # Compile the C program
+      - name: Build the program
+        run: gcc -o sum sum.c
+
+      # Run the program with the dataset
+      - name: Run the test
+        run: ./sum
+
+      # Fail the job if the program fails
+      - name: Check test result
+        if: failure()
+        run: exit 1
